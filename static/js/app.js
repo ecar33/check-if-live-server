@@ -1,31 +1,49 @@
-// Fetch the authentication status
-fetch('http://localhost:5000/is_authenticated')
-    .then(response => {
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
+async function getAuthenticationStatus() {
+    const response = await fetch('http://localhost:5000/is_authenticated');
+
+    if (!response.ok){
+        throw new Error(`HTTP error! Error status: ${response.status}`)
+    }
+    return response.json();
+}
+
+async function getUserData(){
+    const response = await fetch('http://localhost:5000/fetch_data');
+
+    if (!response.ok){
+        throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    return response.json();
+}
+
+async function main() {
+    try{
+        const authStatus = await getAuthenticationStatus();
+            const beforeVerification = document.getElementById("before_verification")
+            const afterVerification = document.getElementById("after_verification")
+        if (authStatus.authorized) {
+            try{
+                const userData = await getUserData();
+                userDataView = document.getElementById("user_data_view")
+                userDataView.textContent = JSON.stringify(userData)
+
+
+
+            } catch (error) {
+                console.error(`Error: ${error}`)
+            }
+
+            beforeVerification.classList.add('visually-hidden');
+            afterVerification.classList.remove('visually-hidden');
         }
-        return response.json();
-    })
-    .then(data => {
-        console.log('Received JSON response:', data);
-
-        // Based on whether the user is authenticated, show the appropriate view
-        const beforeVerification = document.getElementById('before_verification');
-        const afterVerification = document.getElementById('after_verification');
-
-        if (data.authorized) {
-            console.log('User is authorized');
-            beforeVerification.classList.add('hidden');
-            afterVerification.classList.remove('hidden');
-            //fetchDataAndUpdateView();  // Function to fetch user data and update the view
-
-        } else {
-            console.log('User is not authorized');
-
-            afterVerification.classList.add('hidden');
-            beforeVerification.classList.remove('hidden');
+        else {
+            beforeVerification.classList.remove('visually-hidden');
+            afterVerification.classList.add('visually-hidden');
         }
-    })
-    .catch(error => {
-        console.log('Error:', error);
-    });
+    } catch (error) {
+        console.error(`Error: ${error}`)
+    }
+}
+document.addEventListener('DOMContentLoaded', (event) => {
+    main();
+});

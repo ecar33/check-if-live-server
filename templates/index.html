@@ -3,18 +3,17 @@
 <head>
     <title>Your App</title>
     <script src="../static/js/app.js"></script>
-    <style>
-        .hidden { display: none; }
-    </style>
+    <link rel="stylesheet" type="text/css" href="../static/css/style.css">
 </head>
 <body>
-<div id="before_verification" class="view">
+<div id="before_verification">
     <p>You haven't authenticated yet/failed to authenticate.</p>
     <a href="http://localhost:5000/">Login to twitch.</a>
 </div>
 
-<div id="after_verification" class="view hidden">
+<div id="after_verification" class="visually-hidden">
     <p>You successfully authenticated!</p>
+    <p id="user_data_view">''</p>
 </div>
 </body>
 </html>

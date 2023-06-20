@@ -18,14 +18,14 @@ logger = create()
 
 app = Flask(__name__)
 
-# CORS(app, resources={r"/*": {"origins": "*", "supports_credentials": True}}, methods=["GET", "HEAD", "POST", "OPTIONS", "PUT", "PATCH", "DELETE"])
+# CORS(app, resources={r"/*": {"origins": "http://192.168.56.1:8000", "supports_credentials": True}}, methods=["GET", "HEAD", "POST", "OPTIONS", "PUT", "PATCH", "DELETE"])
 # @app.after_request
 # def add_cors_headers(response):
-#     response.headers['Access-Control-Allow-Origin'] = 'http://localhost:63343'
-#     response.headers['Access-Control-Allow-Methods'] = 'GET, POST, OPTIONS'
-#     response.headers['Access-Control-Allow-Headers'] = 'Content-Type'
-#     response.headers['Access-Control-Allow-Credentials'] = 'true'
-#     return response
+#      response.headers['Access-Control-Allow-Origin'] = 'http://192.168.56.1:8000'
+#      response.headers['Access-Control-Allow-Methods'] = 'GET, POST, OPTIONS'
+#      response.headers['Access-Control-Allow-Headers'] = 'Content-Type'
+#      response.headers['Access-Control-Allow-Credentials'] = 'true'
+#      return response
 #
 app.secret_key = os.getenv("SECRET_KEY")
 app.config['TWITCH_OAUTH_CLIENT_ID'] = os.getenv("TWITCH_CLIENT_ID")
@@ -61,7 +61,7 @@ def is_authenticated():
 
 @app.route('/oauth_done')
 def oauth_done():
-    return render_template('index.html')
+    return render_template("index.html")
 
 @app.route('/fetch_data')
 def fetch_data():
